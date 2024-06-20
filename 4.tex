@@ -1,0 +1,589 @@
+\newpage
+\section{解线性方程组的迭代法及非线性方程迭代法}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+1. 设有方程组 $ A x=b $, 其中 $ A $ 为对称正定矩阵, 迭代公式
+$$
+x^{(k+1)}=x^{(k)}+\omega\left(b-A x^{(k)}\right)(k=0,1,2, \cdots) .
+$$
+试证: 当 $ 0<\omega<\frac{2}{\beta} $ 时, 上述迭代法收敛
+ (其中  $0<\alpha \leq \lambda(A) \leq \beta$  ). 
+\tcblower
+
+将迭代格式改写成
+$$
+\boldsymbol{x}^{(k+1)}=(\boldsymbol{I}-\omega \boldsymbol{A}) \boldsymbol{x}^{(k)}+\omega \boldsymbol{b} \quad(k=0,1,2, \cdots)
+$$
+即迭代矩阵 $ \boldsymbol{B}=\boldsymbol{I}-\omega \boldsymbol{A} $，设迭代矩阵的特征值为$\mu$, 对应的特征向量为$\boldsymbol{v}$, 因此 $ \boldsymbol{Bv} = \mu \boldsymbol{v} $，于是 $ (\boldsymbol{I}-\omega \boldsymbol{A})\boldsymbol{v} = \mu \boldsymbol{v} $，整理可得 $ \boldsymbol{v} - \omega \boldsymbol{A}\boldsymbol{v} = \mu \boldsymbol{v} $，进一步整理即可得到迭代矩阵 $ \boldsymbol{B}$的特征值 $ \mu = 1 - \omega \lambda(\boldsymbol{A}) $.
+
+由 $ |\mu|<1$, 即$|1-{\omega \lambda}(\boldsymbol{A})|<1 $， 得$0<\omega<\frac{2}{\lambda(\boldsymbol{A})}$,
+而$0<\alpha \leq \lambda(A) \leq \beta$，所以$ 0<\omega<\frac{2}{\beta}<\frac{2}{\lambda(\boldsymbol{A})}$.
+故当 $0<\omega<\frac{2}{\beta} $ 时,有 $|\mu|<1, \rho(\boldsymbol{B})<1 $, 因此迭代格式收敛.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+2. 设方程组 $ \left\{\begin{array}{l}a_{11} x_{1}+a_{12} x_{2}=b_{1} \\ a_{21} x_{1}+a_{22} x_{2}=b_{2}\end{array}, a_{11} a_{22} \neq 0\right. $.
+求证: 
+
+(1). 用 Jacobi 迭代法与 G-S 迭代法解此方程组
+收敛的充要条件为 $\left|\dfrac{a_{12} a_{21}}{a_{11} a_{22}}\right|<1 ;$
+
+(2). Jacobi 方法和 Gauss-Seidel 方法同时收敛或同时发散.
+\tcblower
+
+ (1) 由题意可知, Jacobi 迭代法的迭代矩阵
+$$
+B_{J}=D^{-1}(L+U)=\left[\begin{array}{cc}
+a_{11} & 0 \\
+0 & a_{22}
+\end{array}\right]^{-1}\left[\begin{array}{cc}
+0 & -a_{12} \\
+-a_{21} & 0
+\end{array}\right]=\left[\begin{array}{cc}
+0 & -\frac{a_{12}}{a_{11}} \\
+-\frac{a_{21}}{a_{22}} & 0
+\end{array}\right]
+$$
+
+由 $ \operatorname{det}\left(\lambda I-B_{J}\right)=\lambda^{2}-\frac{a_{12} a_{21}}{a_{11} a_{21}} $, 计算其特征值 $ \lambda_{1,2}= \pm \sqrt{\left|\frac{a_{12} a_{21}}{a_{11} a_{22}}\right|} $, 因此Jacobi 迭代法收敛满足：
+$$
+\rho\left(B_{J}\right)=\sqrt{\left|\frac{a_{12} a_{21}}{a_{11} a_{22}}\right|}<1\iff \left|\dfrac{a_{12} a_{21}}{a_{11} a_{22}}\right|<1
+$$
+
+同理, Gauss-Seidel 迭代法的迭代矩阵为  
+$$
+B_{G}=(D-L)^{-1}U=\left[\begin{array}{cc}
+a_{11} & 0 \\
+a_{21} & a_{22}
+\end{array}\right]^{-1}\left[\begin{array}{cc}
+0 & -a_{12} \\
+0 & 0
+\end{array}\right]=\left[\begin{array}{cc}
+0 & -\frac{a_{12}}{a_{11}} \\
+0 & \frac{a_{12} a_{21}}{a_{11} a_{12}}
+\end{array}\right]
+$$
+其中$\left[\begin{array}{cc}
+a_{11} & 0 \\
+a_{21} & a_{22}
+\end{array}\right]^{-1}=\frac{1}{a_{11}a_{22}}\left[\begin{array}{cc}
+a_{22} & 0 \\
+-a_{21} & a_{11}
+\end{array}\right]^{-1}$. 由 $ \operatorname{det}\left(\lambda I-B_{G}\right)=\lambda\left(\lambda-\frac{a_{12} a_{21}}{a_{11} a_{12}}\right) $, 计算其特征值 $ \lambda_{1}=0, \lambda_{2}=\frac{a_{12} a_{21}}{a_{11} a_{22}} $, 因此
+$$
+\rho\left(B_{G}\right)<1\iff \left|\frac{a_{12} a_{21}}{a_{11} a_{22}}\right|<1
+$$
+
+(2) 当 $|\frac{a_{12} a_{21}}{a_{11} a_{22}}|<1$ 时两种方法同时收敛; 当 $|\frac{a_{12} a_{21}}{a_{11} a_{22}}| \geqslant 1$ 时两种方法同时发散.
+\end{tcolorbox}
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+3. 设
+$
+A=\left[\begin{array}{ccc}
+3 & 7 & 1 \\
+0 & 4 & t+1 \\
+0 & -t+1 & -1
+\end{array}\right], \quad b=\left[\begin{array}{l}
+1 \\
+1 \\
+0
+\end{array}\right], \quad A x=b,
+$
+其中 $ t $ 为实参数.
+
+(1). 求用 Jacobi 法解 $ A x=b $ 时的迭代矩阵;
+
+(2). $ t $ 在什么范围内 Jacobi 迭代法收敛.
+\tcblower
+(1)
+$$
+\boldsymbol{B}_{J}=\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})=\left[\begin{array}{ccc}
+\frac{1}{3} &  &  \\
+ & \frac{1}{4} &  \\
+ &  & -1
+\end{array}\right]\left[\begin{array}{ccc}
+0 & -7 & -1 \\
+0 & 0 & -(t+1) \\
+0 & t-1 & 0
+\end{array}\right]=\left[\begin{array}{ccc}
+0 & -\frac{7}{3} & -\frac{1}{3} \\
+0 & 0 & -\frac{1}{4}(t+1) \\
+0 & 1-t & 0
+\end{array}\right]
+$$
+
+(2)
+$$\operatorname{det}\left(\lambda \boldsymbol{I}-\boldsymbol{B}_{J}\right)=\left|\begin{array}{ccc}
+\lambda & \frac{7}{3} & \frac{1}{3} \\
+0 & \lambda & \frac{1}{4}(t+1) \\
+0 & t-1 & \lambda
+\end{array}\right|=\lambda^{3}-\frac{\lambda}{4}\left(t^{2}-1\right)=0$$
+所以 $ \lambda_1=0 $, $ \lambda_{2,3}=\pm\frac{1}{2} \sqrt{t^{2}-1} $, 由 $ \rho\left(\boldsymbol{B}_{J}\right)=\frac{1}{2} |\sqrt{t^{2}-1}|<1 $, 解得 $  -\sqrt{5}<t<\sqrt{5} $.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+4. 设 $ A=\left[\begin{array}{ccc}t & 1 & 1 \\ \frac{1}{t} & t & 0 \\ \frac{1}{t} & 0 & t\end{array}\right], b=\left[\begin{array}{l}0 \\ 1 \\ 2\end{array}\right], \quad A x=b $,
+试问用 Gauss-Seidel 迭代法解 $ A x=b $ 时, 实参数 $ t $ 在什么
+范围内上述迭代法收敛.
+
+\tcblower
+
+$$
+\boldsymbol{B}_{G}=(\boldsymbol{D}-\boldsymbol{L})^{-1} \boldsymbol{U}=\left[\begin{array}{rrr}
+0 & -\frac{1}{t} & -\frac{1}{t} \\
+0 & \frac{1}{t^{3}} & \frac{1}{t^{3}} \\
+0 & \frac{1}{t^{3}} & \frac{1}{t^{3}}
+\end{array}\right]
+$$
+
+所以
+$$
+\operatorname{det}\left(\lambda \boldsymbol{I}-\boldsymbol{B}_{G}\right)=\left|\begin{array}{ccc}
+\lambda & \frac{1}{t} & \frac{1}{t} \\
+0 & \lambda-\frac{1}{t^{3}} & -\frac{1}{t^{3}} \\
+0 & -\frac{1}{t^{3}} & \lambda-\frac{1}{t^{3}}
+\end{array}\right|=\lambda\left(\lambda-\frac{1}{t^{3}}\right)^{2}-\lambda\left(\frac{1}{t^{6}}\right)=\lambda^2(\lambda-\frac{2}{t^3})=0
+$$
+
+解得 $ \lambda_{1,2}=0 $ , $ \lambda_3={\frac{2}{t^{3}}} $, 即 $ \rho\left(\boldsymbol{B}_{G}\right)=|\frac{2}{t^{3}}|<1 $, 解得 $ t>\sqrt[3]{2} $ 或 $ t<-\sqrt[3]{2} $ .
+\end{tcolorbox}
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+5. 利用非线性方程迭代方法求根的思想, 证明:
+$$
+\sqrt{2+\sqrt{2+\sqrt{2+\cdots}}}=2
+$$
+\tcblower
+
+首先建立迭代公式. 令
+$$
+x_{k}=\sqrt{2+\sqrt{2+\sqrt{2+\cdots}}}
+$$
+则有迭代公式
+$$
+\left\{\begin{array}{l}
+x_{k+1}=\sqrt{2+x_{k}}, \quad k=0,1,2, \cdots \\
+x_{0}=0
+\end{array}\right.
+$$
+其中迭代函数
+$$
+\varphi(x)=\sqrt{2+x}, \quad \varphi^{\prime}(x)=\frac{1}{2 \sqrt{2+x}}
+$$
+显然当 $ x \in[0,2] $ 时 $ \varphi(x) \in[\sqrt{2},2]\subset[0,2] $, 且成立
+$$
+\left|\varphi^{\prime}(x)\right| \leqslant \frac{1}{2 \sqrt{2}}<1
+$$
+因此这一迭代过程收敛于方程$x^{2}-x-2=0$的正根 $ x^{*}=2 $.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+6. 给定线性方程组
+$
+\left[\begin{array}{ccc}
+4 & -1 & 0 \\
+-1 & a & 1 \\
+0 & 1 & 4
+\end{array}\right]\left[\begin{array}{l}
+x_{1} \\
+x_{2} \\
+x_{3}
+\end{array}\right]=\left[\begin{array}{l}
+2 \\
+6 \\
+2
+\end{array}\right]
+$
+其中 $ a $ 为非零常数, 分析 $ a $ 在什么范围取值时, Gauss-Seide 迭代格式收敛.
+
+\tcblower
+
+G-S迭代矩阵 $ B_{G} $计算如下：
+$$
+\begin{array}{l}
+B_{G}=(D-L)^{-1}U=\left[\begin{array}{ccc}
+4 & 0& 0\\
+-1& {a} &0 \\
+0&1 &4
+\end{array}\right]^{-1}\left[\begin{array}{ccc}
+0 &1 & 0\\
+ & 0 & -1\\
+&  & 0
+\end{array}\right] \\
+=\left[\begin{array}{ccc}
+\frac{1}{4} & 0 & 0 \\
+\frac{1}{4a} & \frac{1}{a} &0 \\
+-\frac{1}{16a} & -\frac{1}{4a} & \frac{1}{4}
+\end{array}\right]\left[\begin{array}{ccc}
+0 &1 & 0\\
+ 0& 0 & -1\\
+0& 0 & 0
+\end{array}\right] =\left[\begin{array}{ccc}
+ 0& \frac{1}{4} & 0 \\
+0 & \frac{1}{4a} &-\frac{1}{a} \\
+0 & -\frac{1}{16a} & \frac{1}{4a}
+\end{array}\right] \\
+\end{array}
+$$
+ 于是 Gauss-Seide 迭代矩阵 $B_G$ 的特征方程为
+$$
+\operatorname{det}\left(\lambda I-B_{G}\right)=\left|\begin{array}{ccc}
+\lambda& -\frac{1}{4} & 0 \\
+0 & \lambda-\frac{1}{4a} &\frac{1}{a} \\
+0 & \frac{1}{16a} & \lambda-\frac{1}{4a}
+\end{array}\right|=\lambda^2 \cdot\left( \lambda-\frac{1}{2a}\right) 
+$$
+求得特征值
+$$
+\lambda_{1,2}=0, \quad \lambda_{3}= \frac{1}{2a},
+$$
+所以 $ \rho(\boldsymbol{B_G})=\left|\frac{1}{2a}\right| $. 由$\rho(\boldsymbol{B_G})<1$得$ |a|>2 $. 因此当 $ |a|>\frac 12 $时,原方程组 Gauss-Seide 迭代格式收敛.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+7. 试确定 $ a(a \neq 0) $ 的取值范围, 使得求解方程组
+$
+\left[\begin{array}{ccc}
+a & 1 & 3 \\
+1 & a & 2 \\
+-3 & 2 & a
+\end{array}\right]\left[\begin{array}{l}
+x \\
+y \\
+z
+\end{array}\right]=\left[\begin{array}{l}
+b_{1} \\
+b_{2} \\
+b_{3}
+\end{array}\right] 
+$
+ 的 Jacobi 迭代格式收敛. 
+\tcblower
+
+系数矩阵
+$$
+\begin{aligned}
+A=\left[\begin{array}{ccc}
+a & 1 & 3 \\
+1 & a & 2 \\
+-3 & 2 & a
+\end{array}\right] & =D-L-U  =\left[\begin{array}{lll}
+a & & \\
+& a & \\
+& & a
+\end{array}\right]+\left[\begin{array}{ccc}
+0 & \\
+1 & 0 \\
+-3 & 2 & 0
+\end{array}\right]+\left[\begin{array}{lll}
+0 & 1 & 3 \\
+& 0 & 2 \\
+& & 0
+\end{array}\right]
+\end{aligned}
+$$
+
+于是雅可比迭代矩阵 $ B_{J} $计算如下：
+$$
+\begin{array}{l}
+B_{J}=D^{-1}(L+U)=\left[\begin{array}{lll}
+\frac{1}{a} & & \\
+& \frac{1}{a} & \\
+& & \frac{1}{a}
+\end{array}\right]\left(\left[\begin{array}{ccc}
+0 & & \\
+-1 & 0 & \\
+3 & -2 & 0
+\end{array}\right]+\left[\begin{array}{ccc}
+0 & -1 & -3 \\
+& 0 & -2 \\
+& & 0
+\end{array}\right]\right) \\
+=\left[\begin{array}{lll}
+\frac{1}{a} & & \\
+& \frac{1}{a} & \\
+& & \frac{1}{a}
+\end{array}\right]\left[\begin{array}{ccc}
+0 & -1 & -3 \\
+-1 & 0 & -2 \\
+3 & -2 & 0
+\end{array}\right] =\left[\begin{array}{ccc}
+0 & -\frac{1}{a} & -\frac{3}{a} \\
+-\frac{1}{a} & 0 & -\frac{2}{a} \\
+\frac{3}{a} & -\frac{2}{a} & 0
+\end{array}\right] \\
+\end{array}
+$$
+ 于是Jacobi 迭代矩阵 $ B_J $ 的特征方程为
+$$
+\operatorname{det}\left(\lambda I-B_{J}\right)=\left|\begin{array}{ccc}
+\lambda & \frac{1}{a} & \frac{3}{a} \\
+\frac{1}{a} & \lambda & \frac{2}{a} \\
+-\frac{3}{a} & \frac{2}{a} & \lambda
+\end{array}\right|=\frac{\lambda \cdot\left(a^{2} \lambda^{2}+4\right)}{a^{2}} 
+$$
+求得特征值
+$$
+\lambda_{1}=0, \quad \lambda_{2,3}= \pm \frac{2}{|a|} \mathrm{i},
+$$
+所以 $ \rho(\boldsymbol{B_J})=\left|\frac{2}{a}\right| $. 由$\rho(\boldsymbol{B_J})<1$得$ |a|>2 $. 因此当 $ |a|>2 $时,原方程组 Jacobi 迭代格式收敛.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+8. 设 $ n \geq 2 $ 为正整数, $ c $ 为正常数, 记 $ f(x)=x^{n}-c=0 $ 的根为 $ x^{*} $,
+
+(1) 假设 $ 0<x_{k}<\sqrt[n]{c} $, 试说明迭代格式 $ x_{k+1}=c x_{k}^{1-n},(k= $ $ 0,1,2 \cdots) $ 不能用来计算 $ x^{*} $ 的近似值
+
+(2) 试写出求解 $ x^{*} $ 近似值的牛顿迭代格式, 并计算迭代格式的收敛阶数.
+
+
+\tcblower
+ (1) 记 $ \varphi(x)=c x^{1-n} $, 则 $ \varphi^{\prime}(x)=c(1-n) x^{-n}, \varphi^{\prime}\left(x^{*}\right)=1-n $.
+ 
+(a) 当 $ n \geqslant 3 $ 时, $ \left|\varphi^{\prime}\left(x^{*}\right)\right|=n-1 \geqslant 2 $, 迭代格式发散.
+
+(b) 当 $ n=2 $ 时, 有$x_{k+1}=\frac{c}{x_{k}}, \quad k=0,1,2, \cdots,$ 
+
+设 $x_{0} \neq x^{*}$, 则有 $x_{1}=\frac{c}{x_{0}} \neq x^{*}$, 且$x_{k} x_{k+1}=c, \quad k=0,1,2, \cdots$,
+$$
+x_{k+1}-\sqrt{c}=\frac{c}{x_{k}}-\sqrt{c}=-\frac{\sqrt{c}}{x_{k}}\left(x_{k}-\sqrt{c}\right) 
+=\left(-\frac{\sqrt{c}}{x_{k}}\right)\left(-\frac{\sqrt{c}}{x_{k-1}}\right)\left(x_{k-1}-\sqrt{c}\right) 
+=x_{k-1}-\sqrt{c},  k=1,2, \cdots,
+$$
+即$x_{k+1}=x_{k-1}, \quad k=1,2, \cdots,$于是$x_{2 m} \equiv x_{0}, \quad x_{2 m+1} \equiv x_{1}, \quad m=0,1,2, \cdots,$即迭代格式不收敛.
+
+(2) 考虑方程 $ f(x) \equiv x^{n}-c=0 $,$f(x^*)=0, f^{\prime}(x^*)\neq0$,则 $ x^{*} $ 为其单根. 用 Newton 迭代格式:
+$$
+x_{k+1}=x_{k}-\frac{f\left(x_{k}\right)}{f^{\prime}\left(x_{k}\right)}=\left(1-\frac{1}{n}\right) x_{k}+\frac{c}{n} x_{k}^{1-n}, k=0,1,2, \cdots
+$$
+求解. 由于 Newton 迭代格式对单根是 2 阶局部收敛的, 所以迭代格式当 $ x_{0} $ 比较靠近 $ x^{*} $ 时是收敛的, 且收敛阶数为 2 .
+
+\begin{tcolorbox}
+    定理 :对于迭代过程 $ x_{k+1}=\varphi\left(x_{k}\right) $ 及正整数 $ p $, 如果 $ \varphi^{(p)}(x) $ 在所求根 $ x^{*} $ 的邻近连续,并且
+$$
+\varphi^{\prime}\left(x^{*}\right)=\varphi^{\prime \prime}\left(x^{*}\right)=\cdots=\varphi^{(p-1)}\left(x^{*}\right)=0, 
+\varphi^{(p)}\left(x^{*}\right) \neq 0,
+$$
+则该迭代过程在点 $ x^{*} $ 邻近是 $ p $ 阶收敛的.
+\end{tcolorbox}
+令$\varphi(x)=(1-\frac 1n)x+\frac{c}{n}x^{1-n}$,则 $\varphi^{\prime}(x)=(1-\frac 1n)+\frac{c(1-n)}{n}x^{-n},\varphi^{\prime \prime}(x)=c(n-1)x^{-n-1}$.由于
+$x^{*}=\sqrt{n}$,且$\varphi^{\prime}\left(x^{*}\right)=0,\varphi^{\prime \prime}\left(x^{*}\right) \neq 0$.所以迭代格式当 $ x_{0} $ 比较靠近 $ x^{*} $ 时是二阶收敛的.
+
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+9. 设 $ f(x)=0 $ 有根, 且 $ M \geqslant f^{\prime}(x) \geqslant m>0 $ 求证: 用迭代格式
+$$
+x_{i+1}=x_{i}-\lambda f\left(x_{i}\right), \quad i=0,1, \cdots,
+$$
+取任意初值 $ x_{0} $, 当 $ \lambda $ 满足 $ 0<\lambda<\frac{2}{M} $ 时, 迭代序列 $ \left\{x_{i}\right\} $ 收敛于 $ f(x)=0 $ 的根.
+\tcblower
+
+根据迭代公式构造迭代函数$\varphi(x)=x-\lambda f(x)$，因为 $ \varphi\left(x^{*}\right)=x^{*}-\lambda f\left(x^{*}\right)=x^{*} $, 故 $ f(x)=0 $ 的根 $ x^{*} $ 是迭代函数 $ \varphi(x) $ 的一个不动点. 显然迭代函数 $ \varphi(x) $ 的导数存在且为
+$$
+\varphi^{\prime}(x)=1-\lambda f^{\prime}(x)
+$$
+
+注意到 $ 0<m \leqslant f^{\prime}(x) \leqslant M $ 及 $ 0<\lambda<\frac{2}{M} $, 有
+$$
+0<\lambda m \leqslant \lambda f^{\prime}(x) \leqslant \lambda M<2
+$$
+
+以上不等式所有项同乘以 $-1$ , 然后再都加 $1$ , 由不等式运算规则, 有
+$$
+-1<1-\lambda M \leqslant 1-\lambda f^{\prime}(x) \leqslant 1-\lambda m<1
+$$
+
+注意到
+$$
+\left|1-\lambda f^{\prime}(x)\right| \leqslant \max \{|1-\lambda m|,|1-\lambda M|\}<1, \quad x \in \mathbf{R}
+$$
+
+取 $ L=\max \{|1-\lambda m|,|1-\lambda M|\} $, 则有
+$$
+\left|\varphi^{\prime}(x)\right| \leqslant L<1, x \in \mathbf{R}
+$$
+
+此外, 显然有任取 $ x \in \mathbf{R} $ 可得 $ \varphi(x) \in \mathbf{R} $. 因此迭代公式 $ x_{k+1}=x_{k}-\lambda f\left(x_{k}\right) $ 对任意初值 $ x_{0} $ 均收敛于 $ \varphi(x) $ 的唯一不动点 $ x^{*} $, 即它收敛于 $ f(x)=0 $ 的根 $ x^{*} $.
+
+
+\begin{tcolorbox}
+    $$
+\left|x_{k}-x^{*}\right| \leqslant L\left|x_{k-1}-x^{*}\right| \leqslant \cdots \leqslant L^{k}\left|x_{0}-x^{*}\right| \rightarrow 0(k \rightarrow \infty) 
+$$
+即$ \lim\limits _{k \rightarrow \infty} x_{k}=x^{*} $
+\end{tcolorbox}
+
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+10. 证明: 当 $ x_{0}=1.5 $ 时, 迭代法 $ x_{k+1}=\sqrt{\frac{10}{4+x_{k}}} $ 收敛于方程 $ f(x)=x^{3}+4 x^{2}-10=0 $ 在区间 $ [1,2] $ 内唯一实根 $ x^{*} $.
+
+\tcblower
+
+首先，我们建立迭代公式：
+$$
+\left\{
+\begin{array}{l}
+x_{k+1}=\sqrt{\frac{10}{4+x_{k}}} \\
+x_{0}=1.5
+\end{array}
+\right.
+$$
+设迭代函数为$\varphi(x)=\sqrt{\frac{10}{4+x}}$，我们很容易验证$x=\varphi(x)$与$f(x)=x^{3}+4x^{2}-10=0$是等价的方程.
+
+显然$\varphi(x)$在区间$[1,2]$上是单调递减的,当 $ {x}=1 $ 时, $ \varphi(1)=\sqrt{2} $, 当 $ {x}=2 $ 时, $ \varphi(2)=\sqrt{\frac{5}{3}} $ .所以当 $ {x} \in[1,2] $ 时, $ 1<\varphi(2) \leqslant \varphi({x}) \leqslant \varphi(1)<2 $, 即 $ \varphi({x}) \in[1,2] $ .而$ \varphi ^{\prime}(x)=-\dfrac{\sqrt{10}}{2\sqrt{(4+x)^{3}}}$.
+易知$ \varphi ^{\prime}(x)$是一个增函数, 则有（注意添了绝对值）
+$$
+\max _{1 \leqslant x \leqslant 2}\left|\varphi^{\prime}(x)\right|=|\varphi^{\prime}(1)|=\left|- \frac{\sqrt{10}}{2\sqrt{(4+1)^{3}}}\right|=\left|-\sqrt{\frac{1}{50}}\right|<1
+$$
+
+ 所以 $|\varphi^{\prime}({x})|<1 $.依照收敛性定理, 迭代法 $ {x}_{{k}+1}=\sqrt{\frac{10}{4+{x}_{{k}}}} $ 收敛于方程 $ f(x)=x^{3}+4 x^{2}-10=0 $ 在区间 $ [1,2] $ 内唯一实根 $ x^{*} $.
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable,enhanced,arc=0mm,outer arc=0mm,
+		boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
+		titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
+		colframe=white!10!biru,colback=white!90!biru,coltitle=white,
+            coltext=black,title =2024-04, title style={white!10!biru}, before skip=8pt, after skip=8pt,before upper=\hspace{2em},
+		fonttitle=\bfseries,fontupper=\normalsize]
+  
+11. 已知求解线性方程组 $ \boldsymbol{A x}=\boldsymbol{b} $ 的迭代格式:
+$$
+x_{i}^{(k+1)}=x_{i}^{(k)}+\frac{\mu}{a_{i i}}\left(b_{i}-\sum_{j=1}^{n} a_{i j} x_{j}^{(k)}\right), \quad i=1,2, \ldots, n
+$$
+(1) 求此迭代法的迭代矩阵 $ \boldsymbol{M}(\boldsymbol{A}=\boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U}) $; 
+
+(2) 当 $ A $ 是严格行对角占优矩阵, $ 0<\mu \leq 1 $ 时, 给出 $ \|M\|_{\infty} $ 表达式, 并证明此时迭代格式收敛.
+\tcblower
+
+(1) 要求迭代矩阵 $ M $ ，我们首先需要明确分解系数矩阵 $ \boldsymbol{A} $ 为 $ \boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U} $ ，其中 $ \boldsymbol{D} $ 是 $ \boldsymbol{A} $ 的对角部分， $ \boldsymbol{L} $ 是严格下三角部分 (所有上三角元素为0)， $ \boldsymbol{U} $ 是严格上三角部分（所有下三角元素为 $ 0) $ .
+
+将迭代格式重写为更符合矩阵运算的形式:
+$$
+\boldsymbol{x}^{(k+1)}=\boldsymbol{x}^{(k)}+\mu \boldsymbol{D}^{-1}\left(\boldsymbol{b}-\boldsymbol{A} \boldsymbol{x}^{(k)}\right)
+$$
+展开后得到：
+$$
+\boldsymbol{x}^{(k+1)}=(\boldsymbol{I}-\mu \boldsymbol{D}^{-1}\boldsymbol{A})\boldsymbol{x}^{(k)}+\mu \boldsymbol{D}^{-1}\boldsymbol{b}
+$$
+因此$\boldsymbol{M}=\boldsymbol{I}-\mu \boldsymbol{D}^{-1}\boldsymbol{A}$.
+
+
+(2) 将 $ \boldsymbol{A}=\boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U} $ 代入$\boldsymbol{M}$得：
+$$
+\begin{aligned}
+\boldsymbol{M}&=\boldsymbol{I}-\mu \boldsymbol{D}^{-1}(\boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U}) \\
+&=\boldsymbol{I}-\mu \boldsymbol{D}^{-1} \boldsymbol{D}+\mu \boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\\
+&=I-\mu I+\mu \boldsymbol{D}^{-1}(\boldsymbol{D}-\boldsymbol{A}) \\
+&=(1-\mu) \boldsymbol{I}+\mu( \boldsymbol{I}-\boldsymbol{D}^{-1}\boldsymbol{A}) 
+\end{aligned}
+$$
+其中矩阵
+$$
+\boldsymbol{I}-\boldsymbol{D}^{-1} \boldsymbol{A}=\left(\begin{array}{cccc}
+0 & -\frac{a_{12}}{a_{11}} & \cdots & -\frac{a_{1 n}}{a_{11}} \\
+-\frac{a_{21}}{a_{22}} & 0 & \cdots & -\frac{a_{2 n}}{a_{22}} \\
+\vdots & \vdots & & \vdots \\
+-\frac{a_{n 1}}{a_{n n}} & -\frac{a_{n 2}}{a_{n n}} & \cdots & 0
+\end{array}\right)
+$$
+
+$$\|\boldsymbol{M}\|_{\infty}=\|(1-\mu) \boldsymbol{I}+\mu( \boldsymbol{I}-\boldsymbol{D}^{-1}\boldsymbol{A})\|_{\infty} =|1-\mu|+|\mu| \max _{1 \leqslant i \leqslant n} \sum_{\substack{j=1 \\ j \neq i}} \frac{\left|a_{i j}\right|}{\left|a_{i i}\right|}=|\mu|\max _{1 \leqslant i \leqslant n} \frac{\sum\limits_{\substack{j=1 \\ j \neq i}}^{n}\left|a_{i j}\right|}{\left|a_{i i}\right|}+|1-\mu|$$
+
+由$\boldsymbol{A}$是严格行对角占优知$|a_{i i}|>\sum\limits_{\substack{j=1 \\ j \neq i}}^{n}\left|a_{i j}\right|$,所以
+$$\|\boldsymbol{M}\|_{\infty}<|\mu|\cdot1+|1-\mu|=|\mu|+|1-\mu|$$
+
+当$ 0<\mu \leq 1 $ 时，$\|\boldsymbol{M}\|_{\infty}<|\mu|+|1-\mu|=\mu+1-\mu=1$.
+ 此时迭代格式收敛得证.
+\end{tcolorbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
